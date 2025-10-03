@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiteBulb</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper blue">
+      <a href="#" class="brand-logo center">LiteBulb</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h4 class="center">Welcome to LiteBulb</h4>
+    <p class="center">Track and manage your home maintenance tasks with ease.</p>
+
+    <div class="row">
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-image">
+            <img src="Lightbulb.jpg" alt="DIY Guide" />
+            <span class="card-title">DIY Guides</span>
+          </div>
+          <div class="card-content">
+            <p>Explore visual guides for common home fixes. Offline access available.</p>
+          </div>
+          <div class="card-action">
+            <a id="viewGuidesBtn" class="btn blue">View Guides</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Maintenance Calendar</span>
+            <p>Set reminders for seasonal tasks like HVAC checks and gutter cleaning.</p>
+          </div>
+          <div class="card-action">
+            <a id="openCalendarBtn" class="btn blue">Open Calendar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="center">
+      <a id="addTaskBtn" class="waves-effect waves-light btn-large blue">Add New Task</a>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function showToast(message) {
+        M.toast({ html: message, displayLength: 2000 });
+      }
+
+      document.getElementById('addTaskBtn').addEventListener('click', function () {
+        showToast('Add Task clicked! (Feature coming soon)');
+      });
+
+      document.getElementById('viewGuidesBtn').addEventListener('click', function () {
+        showToast('Navigating to DIY Guides...');
+        window.location.href = '#guides'; // Placeholder route
+      });
+
+      document.getElementById('openCalendarBtn').addEventListener('click', function () {
+        showToast('Opening Maintenance Calendar...');
+        window.location.href = '#calendar'; // Placeholder route
+      });
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+</body>
+</html>
