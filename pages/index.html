@@ -10,7 +10,7 @@
 <body>
   <nav>
     <div class="nav-wrapper blue">
-      <a href="#" class="brand-logo center">LiteBulb</a>
+      <a href="index.html" class="brand-logo center">LiteBulb</a>
     </div>
   </nav>
 
@@ -29,7 +29,7 @@
             <p>Explore visual guides for common home fixes. Offline access available.</p>
           </div>
           <div class="card-action">
-            <a id="viewGuidesBtn" class="btn blue">View Guides</a>
+            <a id="viewGuidesBtn" class="btn blue" href="guides.html">View Guides</a>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@
             <p>Set reminders for seasonal tasks like HVAC checks and gutter cleaning.</p>
           </div>
           <div class="card-action">
-            <a id="openCalendarBtn" class="btn blue">Open Calendar</a>
+            <a id="openCalendarBtn" class="btn blue" href="calendar.html">Open Calendar</a>
           </div>
         </div>
       </div>
@@ -61,16 +61,6 @@
 
       document.getElementById('addTaskBtn').addEventListener('click', function () {
         showToast('Add Task clicked! (Feature coming soon)');
-      });
-
-      document.getElementById('viewGuidesBtn').addEventListener('click', function () {
-        showToast('Navigating to DIY Guides...');
-        window.location.href = '#guides'; // Placeholder route
-      });
-
-      document.getElementById('openCalendarBtn').addEventListener('click', function () {
-        showToast('Opening Maintenance Calendar...');
-        window.location.href = '#calendar'; // Placeholder route
       });
     });
 
