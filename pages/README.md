@@ -1,29 +1,24 @@
-# LiteBulb: Home Maintenance Scheduler
+LiteBulb PWA
 
-LiteBulb is a Progressive Web App (PWA) designed to help homeowners track and manage recurring maintenance tasks. It includes offline access, installability, and a responsive design using Materialize CSS.
+LiteBulb is a Progressive Web App (PWA) designed to help homeowners track and manage recurring maintenance tasks. It offers offline access, installability, and a clean, responsive interface built with Materialize CSS.
 
-## Features
+Features
 
 - Offline access to task history and DIY guides
-- Installable on desktop and mobile
-- Calendar integration for seasonal reminders
+- Seasonal maintenance calendar
 - Visual guides for common home fixes
-- Placeholder content for prototyping
+- Installable on desktop and mobile
+- Push-ready structure for notifications
+- Built with HTML, Materialize CSS, and JavaScript
 
-## How to View
+PWA Enhancements
 
-1. Clone the repository
-2. Open `index.html` in a browser
-3. Install the app via browser prompt
-4. Try offline mode by disabling your network
+Service Worker
+- Caches essential resources for offline use
+- Handles fetch events to serve cached content when offline
+- Improves load performance and reliability
 
-## Technologies
-
-- HTML5
-- Materialize CSS
-- Service Worker
-- Web App Manifest
-
-## License
-
-MIT
+Manifest File
+- Enables install prompt on supported devices
+- Includes app name, icons, theme colors, and display mode
+- Ensures consistent branding across platforms
