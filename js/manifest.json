@@ -1,0 +1,9 @@
+{
+  "name": "LiteBulb",
+  "short_name": "LiteBulb",
+  "description": "Track and manage your home maintenance tasks with ease.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#2196f3",
+  "theme_color": "#2196f3"
+}
