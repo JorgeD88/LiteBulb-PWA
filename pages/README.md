@@ -22,3 +22,20 @@ Manifest File
 - Enables install prompt on supported devices
 - Includes app name, icons, theme colors, and display mode
 - Ensures consistent branding across platforms
+
+## Data Storage & Sync
+
+LiteBulb uses Firebase Firestore for online data and IndexedDB for offline storage. When offline, tasks are saved locally and automatically synced to Firebase when the app reconnects.
+
+### How It Works
+
+- Online: CRUD operations use Firebase
+- Offline: CRUD operations use IndexedDB
+- Sync: Offline tasks are synced to Firebase with unique IDs
+- Service worker caches all required scripts for offline use
+
+### Usage
+
+- Add tasks via the form
+- If offline, tasks are stored locally
+- When back online, you'll see a toast confirming sync

@@ -18,3 +18,5 @@ self.addEventListener('fetch', function(e) {
     })
   );
 });
+
+window.addEventListener('online', syncOfflineData);

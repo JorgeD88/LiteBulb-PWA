@@ -25,3 +25,17 @@ self.addEventListener('fetch', event => {
     })
   );
 });
+
+const CACHE_NAME = 'litebulb-cache-v2';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/css/style.css',
+  '/images/Lightbulb.jpg',
+  'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css',
+  'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js',
+  'https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js',
+  'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js',
+  'https://cdn.jsdelivr.net/npm/idb@7/build/iife/index-min.js'
+];
