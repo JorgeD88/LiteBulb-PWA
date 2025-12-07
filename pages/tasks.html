@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Tasks - LiteBulb</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-wrapper blue">
+      <a href="index.html" class="brand-logo center">LiteBulb</a>
+      <ul class="right">
+        <li><a id="signInBtn" class="btn orange">Sign In</a></li>
+        <li><a id="signOutBtn" class="btn-flat white-text" style="display:none;">Sign Out</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h4 class="center orange-text">Manage Your Tasks</h4>
+
+    <form id="taskForm" class="card-panel">
+      <div class="input-field">
+      <input id="taskTitle" type="text" required>
+        <label for="taskTitle">Task Title</label>
+      </div>
+      <div class="input-field">
+        <textarea id="taskNotes" class="materialize-textarea"></textarea>
+        <label for="taskNotes">Notes</label>
+      </div>
+      <button type="submit" class="btn orange">Add Task</button>
+    </form>
+
+    <ul id="taskList" class="collection"></ul>
+  </div>
+
+  <!-- EDIT TASK MODAL -->
+  <div id="editTaskModal" class="modal">
+    <div class="modal-content">
+      <h5>Edit Task</h5>
+
+      <div class="input-field">
+        <input id="editTaskTitle" type="text" />
+        <label for="editTaskTitle">Task Title</label>
+      </div>
+
+      <div class="input-field">
+        <textarea id="editTaskNotes" class="materialize-textarea"></textarea>
+        <label for="editTaskNotes">Notes</label>
+      </div>
+
+      <a id="saveTaskChangesBtn" class="btn orange">Save Changes</a>
+    </div>
+  </div>
+
+  <!-- DELETE CONFIRM MODAL -->
+  <div id="deleteConfirmModal" class="modal">
+    <div class="modal-content">
+      <h5>Delete Task?</h5>
+      <p>This action cannot be undone.</p>
+      <a id="confirmDeleteBtn" class="btn red">Delete</a>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/idb@7/build/iife/index-min.js"></script>
+
+  <!-- Shared Logic -->
+  <script src="js/auth.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/index.js"></script>
+
+  <!-- Tasks Page Logic -->
+  <script>
+    let editingTaskId = null;
+    let deleteTaskId = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      M.Modal.init(document.querySelectorAll('.modal'));
+      renderTasks();
+    });
+
+    // Render the full task list on this page
+    async function renderTasks() {
+      const user = auth.currentUser;
+      const list = document.getElementById('taskList');
+
+      if (!user) {
+        list.innerHTML = '<li class="collection-item">Sign in to view tasks</li>';
+        return;
+      }
+
+      let tasks = navigator.onLine
+        ? await getTasksOnline()
+        : await getTasksOffline(user.uid);
+
+      list.innerHTML = '';
+
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.className = 'collection-item';
+
+        li.innerHTML = `
+          <span><strong>${task.title}</strong><br>${task.notes || ''}</span>
+          <div class="secondary-content">
+
+            <i class="material-icons orange-text edit-task" 
+              data-id="${task.id}" 
+              data-title="${task.title}"
+              data-notes="${task.notes}">
+              edit
+            </i>
+
+            <i class="material-icons red-text delete-task" 
+              data-id="${task.id}">
+              delete
+            </i>
+
+          </div>
+        `;
+
+        list.appendChild(li);
+      });
+
+      // Edit button handler
+      document.querySelectorAll('.edit-task').forEach(btn => {
+        btn.addEventListener('click', e => {
+          editingTaskId = e.target.dataset.id;
+
+          document.getElementById('editTaskTitle').value = e.target.dataset.title;
+          document.getElementById('editTaskNotes').value = e.target.dataset.notes;
+
+          M.updateTextFields();
+          M.Modal.getInstance(document.getElementById('editTaskModal')).open();
+        });
+      });
+
+      // Delete button handler
+      document.querySelectorAll('.delete-task').forEach(btn => {
+        btn.addEventListener('click', e => {
+          deleteTaskId = e.target.dataset.id;
+          M.Modal.getInstance(document.getElementById('deleteConfirmModal')).open();
+        });
+      });
+    }
+
+    // Save edited task
+    document.getElementById('saveTaskChangesBtn').addEventListener('click', async () => {
+      const title = document.getElementById('editTaskTitle').value.trim();
+      const notes = document.getElementById('editTaskNotes').value.trim();
+
+      if (!title) {
+        M.toast({ html: 'Title required' });
+        return;
+      }
+
+      const user = auth.currentUser;
+
+      const updated = {
+        id: editingTaskId,
+        uid: user.uid,
+        title,
+        notes,
+        synced: !navigator.onLine ? false : true
+      };
+
+      if (navigator.onLine) {
+        await updateTaskOnline(updated);
+      }
+      await updateTaskOffline(updated);
+
+      M.toast({ html: 'Task updated' });
+      M.Modal.getInstance(document.getElementById('editTaskModal')).close();
+      renderTasks();
+    });
+
+    // Confirm delete
+    document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+      if (navigator.onLine) {
+        await deleteTaskOnline(deleteTaskId);
+      }
+      await deleteTaskOffline(deleteTaskId);
+
+      M.toast({ html: 'Task deleted' });
+      M.Modal.getInstance(document.getElementById('deleteConfirmModal')).close();
+      renderTasks();
+    });
+
+    // Re-render tasks on login / logout
+    auth.onAuthStateChanged(() => renderTasks());
+
+    // Re-render tasks when back online
+    window.addEventListener('online', async () => {
+      const user = auth.currentUser;
+      if (user) {
+        await syncOfflineData(user.uid);
+        renderTasks();
+      }
+    });
+
+  </script>
+</body>
+</html>

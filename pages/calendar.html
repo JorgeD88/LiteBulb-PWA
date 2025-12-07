@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiteBulb - Editable Maintenance Calendar</title>
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-wrapper blue">
+      <a href="index.html" class="brand-logo">LiteBulb</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="guides.html">Guides</a></li>
+        <li><a href="tasks.html">Manage Tasks</a></li>
+        <li><a id="signInBtn" class="btn orange">Sign In</a></li>
+        <li><a id="signOutBtn" class="btn-flat white-text" style="display:none;">Sign Out</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h4 class="center">Maintenance Calendar</h4>
+    <p class="center">Add seasonal reminders and track recurring tasks.</p>
+
+    <div class="center" style="margin-top:20px;">
+      <a class="btn orange modal-trigger" href="#addReminderModal">
+        <i class="material-icons left">add</i>Add Reminder
+      </a>
+    </div>
+
+    <ul id="calendarList" class="collection z-depth-1" style="margin-top:20px;"></ul>
+  </div>
+
+  <!-- ADD REMINDER Modal -->
+  <div id="addReminderModal" class="modal">
+    <div class="modal-content">
+      <h5>Add Seasonal Reminder</h5>
+      <div class="input-field">
+        <select id="seasonSelect">
+          <option value="Spring">Spring</option>
+          <option value="Summer">Summer</option>
+          <option value="Fall">Fall</option>
+          <option value="Winter">Winter</option>
+        </select>
+        <label>Season</label>
+      </div>
+      <div class="input-field">
+        <textarea id="reminderText" class="materialize-textarea"></textarea>
+        <label for="reminderText">Reminder Description</label>
+      </div>
+      <a id="saveReminderBtn" class="btn orange">Save</a>
+    </div>
+  </div>
+
+  <!-- EDIT REMINDER Modal -->
+  <div id="editReminderModal" class="modal">
+    <div class="modal-content">
+      <h5>Edit Reminder</h5>
+      <input type="hidden" id="editReminderId">
+      <div class="input-field">
+        <select id="editSeasonSelect">
+          <option value="Spring">Spring</option>
+          <option value="Summer">Summer</option>
+          <option value="Fall">Fall</option>
+          <option value="Winter">Winter</option>
+        </select>
+        <label>Season</label>
+      </div>
+      <div class="input-field">
+        <textarea id="editReminderText" class="materialize-textarea"></textarea>
+        <label for="editReminderText">Reminder Description</label>
+      </div>
+      <a id="updateReminderBtn" class="btn green">Update</a>
+      <a id="deleteReminderBtn" class="btn red right">Delete</a>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/idb@7/build/iife/index-min.js"></script>
+
+  <script src="js/auth.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/index.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      M.Modal.init(document.querySelectorAll('.modal'));
+      M.FormSelect.init(document.querySelectorAll('select'));
+    });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js');
+    }
+  </script>
+</body>
+</html>

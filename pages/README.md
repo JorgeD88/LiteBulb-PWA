@@ -1,41 +1,39 @@
-LiteBulb PWA
+# LiteBulb
 
-LiteBulb is a Progressive Web App (PWA) designed to help homeowners track and manage recurring maintenance tasks. It offers offline access, installability, and a clean, responsive interface built with Materialize CSS.
+LiteBulb is a Progressive Web App (PWA) for managing home maintenance tasks, seasonal reminders, and DIY guides. It supports **offline‑first functionality**, **Firebase authentication & Firestore sync**, and a **modern flat‑minimal theme**.
 
-Features
+---
 
-- Offline access to task history and DIY guides
-- Seasonal maintenance calendar
-- Visual guides for common home fixes
-- Installable on desktop and mobile
-- Push-ready structure for notifications
-- Built with HTML, Materialize CSS, and JavaScript
+## Features
 
-PWA Enhancements
+- **Task Management**
+  - Add, edit, delete tasks
+  - Works offline via IndexedDB
+  - Syncs online with Firestore when connected
+  - Preview list on homepage + full CRUD on tasks page
 
-Service Worker
-- Caches essential resources for offline use
-- Handles fetch events to serve cached content when offline
-- Improves load performance and reliability
+- **Seasonal Calendar**
+  - Add, edit, delete seasonal reminders
+  - Offline storage with IndexedDB
+  - Syncs reminders to Firestore
+  - Editable via Materialize modals
 
-Manifest File
-- Enables install prompt on supported devices
-- Includes app name, icons, theme colors, and display mode
-- Ensures consistent branding across platforms
+- **DIY Guides**
+  - Visual step‑by‑step guides for common home fixes
+  - Offline access to images and instructions
 
-## Data Storage & Sync
+- **Authentication**
+  - Firebase Email/Password sign‑in
+  - Auth state reflected across all pages
+  - Sign‑in/out buttons toggle dynamically
 
-LiteBulb uses Firebase Firestore for online data and IndexedDB for offline storage. When offline, tasks are saved locally and automatically synced to Firebase when the app reconnects.
+- **PWA Support**
+  - Service Worker with precaching + dynamic caching
+  - Offline fallback for navigation
+  - Installable via manifest.json with icons
+  - Works seamlessly on desktop and mobile
 
-### How It Works
-
-- Online: CRUD operations use Firebase
-- Offline: CRUD operations use IndexedDB
-- Sync: Offline tasks are synced to Firebase with unique IDs
-- Service worker caches all required scripts for offline use
-
-### Usage
-
-- Add tasks via the form
-- If offline, tasks are stored locally
-- When back online, you'll see a toast confirming sync
+- **Modern Theme**
+  - Flat‑minimal CSS with orange/blue palette
+  - Hover effects, shadows, alternating list rows
+  - Smooth transitions and accessibility focus styles

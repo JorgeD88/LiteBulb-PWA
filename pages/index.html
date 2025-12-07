@@ -4,14 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LiteBulb</title>
+
+  <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
+
+  <!-- NAV -->
   <nav>
     <div class="nav-wrapper blue">
       <a href="index.html" class="brand-logo center">LiteBulb</a>
+      <ul class="right">
+        <li><a id="signInBtn" class="btn orange">Sign In</a></li>
+        <li><a id="signOutBtn" class="btn-flat white-text" style="display:none;">Sign Out</a></li>
+      </ul>
     </div>
   </nav>
 
@@ -19,6 +28,36 @@
     <h4 class="center">Welcome to LiteBulb</h4>
     <p class="center">Track and manage your home maintenance tasks with ease.</p>
 
+    <!-- TASK MANAGER -->
+    <div class="row">
+      <div class="col s12">
+        <h5 class="orange-text">Your Tasks</h5>
+
+        <!-- Task Form -->
+        <form id="taskForm" class="card-panel">
+          <div class="input-field">
+            <input id="taskTitle" type="text" required>
+            <label for="taskTitle">Task Title</label>
+          </div>
+
+          <div class="input-field">
+            <textarea id="taskNotes" class="materialize-textarea"></textarea>
+            <label for="taskNotes">Notes</label>
+          </div>
+
+          <button type="submit" class="btn orange">Add Task</button>
+
+          <div class="center" style="margin-top:20px;">
+            <a href="tasks.html" class="btn-large orange">Manage Tasks</a>
+          </div>
+        </form>
+
+        <!-- Task List Preview -->
+        <ul id="taskList" class="collection"></ul>
+      </div>
+    </div>
+
+    <!-- OTHER CARDS -->
     <div class="row">
       <div class="col s12 m6">
         <div class="card">
@@ -30,7 +69,8 @@
             <p>Explore visual guides for common home fixes. Offline access available.</p>
           </div>
           <div class="card-action">
-            <a id="viewGuidesBtn" class="btn blue" href="guides.html">View Guides</a>
+            <a class="btn orange waves-effect waves-light" href="guides.html">View Guides</a>
+ 
           </div>
         </div>
       </div>
@@ -39,72 +79,49 @@
         <div class="card">
           <div class="card-content">
             <span class="card-title">Maintenance Calendar</span>
-            <p>Set reminders for seasonal tasks like HVAC checks and gutter cleaning.</p>
+            <p>Set reminders for seasonal tasks.</p>
           </div>
           <div class="card-action">
-            <a id="openCalendarBtn" class="btn blue" href="calendar.html">Open Calendar</a>
+            <a class="btn orange waves-effect waves-light" href="calendar.html">Open Calendar</a>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="center">
-      <a id="addTaskBtn" class="waves-effect waves-light btn-large blue">Add New Task</a>
+  <!-- AUTH MODAL -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <div class="input-field mt-2">
+      <h5>Sign In</h5>
+      <div class="input-field">
+        <input id="authEmail" type="email" />
+        <label for="authEmail">Email</label>
+      </div>
+
+      <div class="input-field">
+        <input id="authPassword" type="password" />
+        <label for="authPassword">Password</label>
+      </div>
+
+      <a id="authSubmitBtn" class="btn orange">Sign In</a>
     </div>
   </div>
 
+  <!-- JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      function showToast(message) {
-        M.toast({ html: message, displayLength: 2000 });
-      }
-
-      document.getElementById('addTaskBtn').addEventListener('click', function () {
-        showToast('Add Task clicked! (Feature coming soon)');
-      });
-    });
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
-  </script>
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/idb@7/build/iife/index-min.js"></script>
-  <script>
-    const dbPromise = idb.openDB('litebulb-db', 1, {
-      upgrade(db) {
-        db.createObjectStore('tasks', { keyPath: 'id' });
-      }
-    });
 
-    async function addTaskOffline(task) {
-      const db = await dbPromise;
-      await db.put('tasks', task);
-    }
+  <!-- Shared logic -->
+  <script src="js/auth.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/index.js"></script>
 
-    async function getTasksOffline() {
-      const db = await dbPromise;
-      return await db.getAll('tasks');
-    }
+  <!-- Page-specific logic -->
+  <script src="js/index.js"></script>
 
-    async function deleteTaskOffline(id) {
-      const db = await dbPromise;
-      await db.delete('tasks', id);
-    }
-  </script>
 </body>
 </html>

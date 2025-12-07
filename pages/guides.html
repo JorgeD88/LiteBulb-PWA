@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiteBulb - DIY Guides</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-wrapper orange">
+      <a href="index.html" class="brand-logo">LiteBulb</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="calendar.html">Calendar</a></li>
+        <li><a href="tasks.html">Manage Tasks</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h4 class="center orange-text">DIY Guides</h4>
+    <p class="center">Step-by-step instructions for common home maintenance tasks.</p>
+
+    <div class="row">
+      <!-- Lightbulb Guide -->
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-image">
+            <img src="images/lightbulb.jpg" alt="Replace a Lightbulb">
+            <span class="card-title">Replace a Lightbulb</span>
+          </div>
+          <div class="card-content">
+            <p>Learn how to safely replace a lightbulb and dispose of old bulbs properly.</p>
+          </div>
+          <div class="card-action">
+            <a class="btn orange modal-trigger" href="#lightbulbModal">View Steps</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gutter Guide -->
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-image">
+            <img src="images/gutter.jpg" alt="Clean Gutters">
+            <span class="card-title">Clean Gutters</span>
+          </div>
+          <div class="card-content">
+            <p>Keep your gutters clear to prevent water damage and maintain your home’s foundation.</p>
+          </div>
+          <div class="card-action">
+            <a class="btn orange modal-trigger" href="#gutterModal">View Steps</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbulb Modal -->
+  <div id="lightbulbModal" class="modal">
+    <div class="modal-content">
+      <h5>Replace a Lightbulb</h5>
+      <ol>
+        <li>Turn off the power.</li>
+        <li>Remove the old bulb carefully.</li>
+        <li>Insert the new bulb securely.</li>
+        <li>Dispose of the old bulb properly.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Gutter Modal -->
+  <div id="gutterModal" class="modal">
+    <div class="modal-content">
+      <h5>Clean Gutters</h5>
+      <ol>
+        <li>Wear gloves and safety glasses.</li>
+        <li>Use a ladder safely.</li>
+        <li>Remove debris with a scoop.</li>
+        <li>Flush gutters with water.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      M.Modal.init(document.querySelectorAll('.modal'));
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js');
+    }
+  </script>
+</body>
+</html>
