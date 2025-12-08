@@ -1,21 +1,28 @@
 // ----------------------------
-// Firebase Initialization
+// Firebase Initialization (v9+ modular)
 // ----------------------------
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
 const firebaseConfig = {
-  apiKey: "AIzaSyA-D0m7m_atWOnORZ4RXfqHH9JPd1A_Qac",
-  authDomain: "litebulb-bfc72.firebaseapp.com",
-  projectId: "litebulb-bfc72",
-  storageBucket: "litebulb-bfc72.firebasestorage.app",
-  messagingSenderId: "1008935496350",
-  appId: "1:1008935496350:web:4560d0a31d94998a00298f",
-  measurementId: "G-BW42YYJPZ0"
+  apiKey: "AIzaSyCZIItVRsAwIJgvwe2XTqHSDubuVqTrEdQ",
+  authDomain: "litebulb-85531.firebaseapp.com",
+  projectId: "litebulb-85531",
+  storageBucket: "litebulb-85531.appspot.com", // ✅ fix: should end with .appspot.com
+  messagingSenderId: "586023775756",
+  appId: "1:586023775756:web:ddbf326c3990e7f3710829",
+  measurementId: "G-1N4PJTWP3C"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+// Export auth + firestore so other files (tasks.js, index.js) can import them
+export const auth = getAuth(app);
+export const firestore = getFirestore(app);
 
 // ----------------------------
 // AUTH UI + HANDLERS
@@ -39,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
       try {
-        await auth.signInWithEmailAndPassword(email, password);
+        await signInWithEmailAndPassword(auth, email, password);
         M.toast({ html: 'Signed in' });
         if (authModal) M.Modal.getInstance(authModal).close();
       } catch (err) {
@@ -51,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (signOutBtn) {
     signOutBtn.addEventListener('click', async () => {
       try {
-        await auth.signOut();
+        await signOut(auth);
         M.toast({ html: 'Signed out' });
       } catch (err) {
         M.toast({ html: 'Error signing out: ' + err.message });
@@ -63,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ----------------------------
 // Auth State Listener
 // ----------------------------
-auth.onAuthStateChanged(user => {
+onAuthStateChanged(auth, user => {
   const signInBtn = document.getElementById('signInBtn');
   const signOutBtn = document.getElementById('signOutBtn');
   if (!signInBtn || !signOutBtn) return;

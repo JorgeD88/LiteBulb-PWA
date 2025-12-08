@@ -1,0 +1,128 @@
+/* LiteBulb Custom Styles */
+
+/* Theme variables */
+:root {
+  --primary: #ff9800;
+  --primary-dark: #fb8c00;
+  --secondary: #2196f3;
+  --background: #fafafa;
+  --surface: #ffffff;
+  --text-dark: #333;
+  --text-light: #666;
+  --shadow: rgba(0,0,0,0.15);
+}
+
+/* General body styling */
+body {
+  background-color: var(--background);
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Smooth transitions */
+a, button, .btn, .card, .collection-item {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Navbar */
+.nav-wrapper {
+  padding: 0 20px;
+  background-color: var(--secondary);
+  box-shadow: 0 2px 4px var(--shadow);
+}
+nav .brand-logo {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Headings */
+h4, h5 {
+  color: var(--primary);
+  margin-top: 30px;
+  font-weight: 500;
+}
+
+/* Cards (used for calendar/tasks overview) */
+.card {
+  border-radius: 8px;
+  background-color: var(--surface);
+  box-shadow: 0 2px 6px var(--shadow);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px var(--shadow);
+}
+.card .card-title {
+  padding: 6px 10px;
+  border-radius: 4px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Collection list (tasks + calendar) */
+.collection {
+  border: none;
+}
+.collection-item {
+  font-size: 1.05em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-left: 4px solid var(--primary);
+}
+.collection-item:nth-child(odd) {
+  background-color: var(--surface);
+}
+.collection-item:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.collection .secondary-content i {
+  cursor: pointer;
+  color: var(--secondary);
+}
+.collection .secondary-content i:hover {
+  color: var(--primary-dark);
+}
+
+/* Buttons */
+.btn, .btn-large {
+  background-color: var(--primary);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px var(--shadow);
+  font-weight: 500;
+}
+.btn:hover, .btn-large:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Form inputs */
+input, textarea {
+  border-radius: 4px;
+}
+input:focus, textarea:focus {
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 1px 0 0 var(--primary);
+}
+
+/* Utility spacing */
+.mt-2 { margin-top: 20px; }
+.mt-3 { margin-top: 30px; }
+.mb-2 { margin-bottom: 20px; }
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  h4 {
+    font-size: 1.6rem;
+  }
+  .card {
+    margin-bottom: 20px;
+  }
+  .collection-item {
+    font-size: 1em;
+    padding: 12px 14px;
+  }
+}

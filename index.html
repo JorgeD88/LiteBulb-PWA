@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LiteBulb</title>
 
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
@@ -108,20 +108,51 @@
     </div>
   </div>
 
-  <!-- JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/idb@7/build/iife/index-min.js"></script>
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <h5>Sign In</h5>
+      <div class="input-field">
+        <input id="authEmail" type="email">
+        <label for="authEmail">Email</label>
+      </div>
+      <div class="input-field">
+        <input id="authPassword" type="password">
+        <label for="authPassword">Password</label>
+      </div>
+      <a id="authSubmitBtn" class="btn orange">Sign In</a>
+    </div>
+  </div>
 
-  <!-- Shared logic -->
-  <script src="js/auth.js"></script>
-  <script src="js/tasks.js"></script>
-  <script src="js/index.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    M.Modal.init(document.querySelectorAll('.modal'));
 
-  <!-- Page-specific logic -->
-  <script src="js/index.js"></script>
+    const signInBtn = document.getElementById('signInBtn');
+    const authModal = document.getElementById('authModal');
+
+    signInBtn.addEventListener('click', () => {
+      M.Modal.getInstance(authModal).open();
+    });
+
+    document.getElementById('authSubmitBtn').addEventListener('click', async () => {
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        M.toast({ html: 'Signed in!' });
+        M.Modal.getInstance(authModal).close();
+      } catch (err) {
+        M.toast({ html: 'Error: ' + err.message });
+      }
+    });
+  });
+  </script>
+
+  <!-- Firebase SDKs -->
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/tasks.js"></script>
+  <script type="module" src="js/index.js"></script>
 
 </body>
 </html>
